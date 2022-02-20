@@ -8,7 +8,7 @@ public class Program
     {
         Arguments arguments = new(args);
         string inputFile = "";
-        if (arguments.Check())
+        if (arguments.Check() == false)
         {
             Console.WriteLine("Choose File to convert:");
             inputFile = Console.ReadLine() ?? "";
@@ -38,14 +38,14 @@ public class Program
         Encoding outputEncoding;
         if (string.IsNullOrWhiteSpace(arguments.OutputEncoding))
         {
-        Console.WriteLine("To which Encoding should it be converted? (1) UTF8 (2) Latin1/ISO-8859-1/Windows-1252 Western Europe");
-        string? readLineOutput = Console.ReadLine();
-        outputEncoding = readLineOutput switch
-        {
-            "1" => Encoding.UTF8,
-            "2" => Encoding.Latin1,
-            _ => throw new Exception("supports only UTF8, Latin1/ISO-8859-1/Windows-1252"),
-        };
+            Console.WriteLine("To which Encoding should it be converted? (1) UTF8 (2) Latin1/ISO-8859-1/Windows-1252 Western Europe");
+            string? readLineOutput = Console.ReadLine();
+            outputEncoding = readLineOutput switch
+            {
+                "1" => Encoding.UTF8,
+                "2" => Encoding.Latin1,
+                _ => throw new Exception("supports only UTF8, Latin1/ISO-8859-1/Windows-1252"),
+            };
         }
         else
         {

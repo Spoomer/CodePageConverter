@@ -5,11 +5,8 @@ public class Arguments
     public string InputFile { get; private set; } = "";
     public string InputEncoding { get; private set; } = "";
     public string OutputEncoding { get; private set; } = "";
-    public string Error { get; private set; } = "";
-
     private const int PosInputFile = 0;
     private const int PosInputEncoding = 1;
-
     private const int PosOutputEncoding = 2;
     private readonly string[] _args = Array.Empty<string>();
 
@@ -22,12 +19,10 @@ public class Arguments
     {
         if (_args.Length == 0)
         {
-            Error = "Arguments are missing.";
             return false;
         }
         if (File.Exists(_args[PosInputFile]) == false)
         {
-            Error = $"InputFile {_args[PosInputFile]} does not exist.";
             return false;
         }
         InputFile = _args[PosInputFile];
