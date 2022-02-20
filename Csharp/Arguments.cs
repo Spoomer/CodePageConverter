@@ -26,13 +26,13 @@ public class Arguments
             return false;
         }
         InputFile = _args[PosInputFile];
-        if (_args.Length == PosInputEncoding + 1 && string.IsNullOrWhiteSpace(_args[PosInputEncoding]) == false)
+        if (_args.Length >= PosInputEncoding + 1 && string.IsNullOrWhiteSpace(_args[PosInputEncoding]) == false)
         {
             InputEncoding = _args[PosInputEncoding];
         }
-        if (_args.Length == PosOutputEncoding + 1 && string.IsNullOrWhiteSpace(_args[PosOutputEncoding]) == false)
+        if (_args.Length >= PosOutputEncoding + 1 && string.IsNullOrWhiteSpace(_args[PosOutputEncoding]) == false)
         {
-            InputEncoding = _args[PosOutputEncoding];
+            OutputEncoding = _args[PosOutputEncoding];
         }
         return true;
     }

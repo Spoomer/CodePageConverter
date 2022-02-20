@@ -11,7 +11,7 @@
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/bin/Debug/net6.0/CodePageConverter.dll",
-            "args": ["../testfiles/test_utf-8.txt"],
+            "args": ["../testfiles/test_utf-8.txt","utf-8","latin1"],
             "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "externalTerminal",

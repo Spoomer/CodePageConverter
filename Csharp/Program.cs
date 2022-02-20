@@ -18,18 +18,12 @@ public class Program
         {
             inputFile = arguments.InputFile;
         }
-        Console.WriteLine(inputFile);
+        Console.WriteLine($"Inputfile:{inputFile}");
         Encoding inputEncoding;
         if (string.IsNullOrWhiteSpace(arguments.InputEncoding))
         {
             Console.WriteLine("Which Encoding has the Inputfile?  (1) UTF8 (2) Latin1/ISO-8859-1/Windows-1252 Western Europe");
-            string? readLine = Console.ReadLine();
-            inputEncoding = readLine switch
-            {
-                "1" => Encoding.UTF8,
-                "2" => Encoding.Latin1,
-                _ => throw new Exception("supports only UTF8, Latin1/ISO-8859-1 or Windows-1252"),
-            };
+            inputEncoding= GetEncodingFromConsoleInput();
         }
         else
         {
@@ -39,13 +33,7 @@ public class Program
         if (string.IsNullOrWhiteSpace(arguments.OutputEncoding))
         {
             Console.WriteLine("To which Encoding should it be converted? (1) UTF8 (2) Latin1/ISO-8859-1/Windows-1252 Western Europe");
-            string? readLineOutput = Console.ReadLine();
-            outputEncoding = readLineOutput switch
-            {
-                "1" => Encoding.UTF8,
-                "2" => Encoding.Latin1,
-                _ => throw new Exception("supports only UTF8, Latin1/ISO-8859-1/Windows-1252"),
-            };
+            outputEncoding = GetEncodingFromConsoleInput();
         }
         else
         {
@@ -57,5 +45,16 @@ public class Program
         string newName = String.Concat(fullNameWithoutExtension, "_", outputEncoding.HeaderName, file.Extension);
         File.WriteAllText(newName, input, outputEncoding);
 
+    }
+
+    private static Encoding GetEncodingFromConsoleInput()
+    {
+        string? readLineOutput = Console.ReadLine();
+        return readLineOutput switch
+        {
+            "1" => Encoding.UTF8,
+            "2" => Encoding.Latin1,
+            _ => throw new Exception("supports only UTF8, Latin1/ISO-8859-1/Windows-1252"),
+        };
     }
 }
