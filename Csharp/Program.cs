@@ -6,8 +6,9 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        string inputFile;
-        if (args.Length < 1)
+        Arguments arguments = new(args);
+        string inputFile = "";
+        if (arguments.Check())
         {
             Console.WriteLine("Choose File to convert:");
             inputFile = Console.ReadLine() ?? "";
@@ -15,30 +16,46 @@ public class Program
         }
         else
         {
-            inputFile = args[0];
+            inputFile = arguments.InputFile;
         }
         Console.WriteLine(inputFile);
-        Console.WriteLine("Which Encoding has the Inputfile?  (1) UTF8 (2) Latin1/ISO-8859-1/Windows-1252 Western Europe");
-        string? readLine = Console.ReadLine();
-        Encoding inputEncoding = readLine switch
+        Encoding inputEncoding;
+        if (string.IsNullOrWhiteSpace(arguments.InputEncoding))
         {
-            "1" => Encoding.UTF8,
-            "2" => Encoding.Latin1,
-            _ => throw new Exception("supports only UTF8, Latin1/ISO-8859-1 or Windows-1252"),
-        };
+            Console.WriteLine("Which Encoding has the Inputfile?  (1) UTF8 (2) Latin1/ISO-8859-1/Windows-1252 Western Europe");
+            string? readLine = Console.ReadLine();
+            inputEncoding = readLine switch
+            {
+                "1" => Encoding.UTF8,
+                "2" => Encoding.Latin1,
+                _ => throw new Exception("supports only UTF8, Latin1/ISO-8859-1 or Windows-1252"),
+            };
+        }
+        else
+        {
+            inputEncoding = Encoding.GetEncoding(arguments.InputEncoding);
+        }
+        Encoding outputEncoding;
+        if (string.IsNullOrWhiteSpace(arguments.OutputEncoding))
+        {
         Console.WriteLine("To which Encoding should it be converted? (1) UTF8 (2) Latin1/ISO-8859-1/Windows-1252 Western Europe");
         string? readLineOutput = Console.ReadLine();
-        Encoding outputEncoding = readLineOutput switch
+        outputEncoding = readLineOutput switch
         {
             "1" => Encoding.UTF8,
             "2" => Encoding.Latin1,
             _ => throw new Exception("supports only UTF8, Latin1/ISO-8859-1/Windows-1252"),
         };
+        }
+        else
+        {
+            outputEncoding = Encoding.GetEncoding(arguments.OutputEncoding);
+        }
         FileInfo file = new(inputFile);
-        var fullNameWithoutExtension = file.FullName[..file.FullName.LastIndexOf('.')].Replace("_"+inputEncoding.HeaderName,"");
+        var fullNameWithoutExtension = file.FullName[..file.FullName.LastIndexOf('.')].Replace("_" + inputEncoding.HeaderName, "");
         string input = File.ReadAllText(inputFile, inputEncoding);
-        string newName = String.Concat(fullNameWithoutExtension,"_", outputEncoding.HeaderName,file.Extension);
-        File.WriteAllText(newName,input,outputEncoding);
+        string newName = String.Concat(fullNameWithoutExtension, "_", outputEncoding.HeaderName, file.Extension);
+        File.WriteAllText(newName, input, outputEncoding);
 
     }
 }
